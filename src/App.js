@@ -45,7 +45,7 @@ import {
 
 /**
  * NITK DATING - Multiplayer Blind Dating App
- * VERSION: Permission Error Handler + Queue Write Safety
+ * VERSION: Fixed for Vercel Deployment (window.confirm)
  */
 
 // --- FIREBASE CONFIGURATION ---
@@ -752,7 +752,8 @@ export default function BabubaziApp() {
   };
 
   const handleSystemReset = async () => {
-    if (confirm("Reset System? This will clear the entire queue.")) {
+    // FIX: Using window.confirm to bypass 'no-restricted-globals' linter error
+    if (window.confirm("Reset System? This will clear the entire queue.")) {
       const q = query(collection(db, 'artifacts', DATA_APP_ID, 'public', 'data', 'queue'));
       const snapshot = await getDocs(q);
       snapshot.forEach((d) => deleteDoc(d.ref));
